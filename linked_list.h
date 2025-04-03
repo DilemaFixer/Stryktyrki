@@ -2,6 +2,7 @@
 #define L_LIST
 
 #include <stdlib.h>
+#include "arr.h"
 
 typedef struct node_t {
     struct node_t* next;
@@ -28,5 +29,5 @@ void linked_list_remove_first(l_list *list);
 void linked_list_remove_last(l_list *list);
 
 void* find_at_linked_list(l_list *list, void* (*selector)(size_t *i, node_t *node, void *context), void *context);
-void* find_all_at_linked_list(l_list *list, void* (*selector)(size_t *i, node_t *node, void *context), void *context);
+arr_t* find_all_at_linked_list(l_list *list, void* (*selector)(size_t *i, node_t *node, void *context), void *context);
 #endif

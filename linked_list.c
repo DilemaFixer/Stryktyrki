@@ -1,5 +1,6 @@
 #include "linked_list.h"
 #include "logger.h"
+#include "arr.h"
 
 l_list *new_empty_linked_list() {
   l_list *list = (l_list *)malloc(sizeof(l_list));
@@ -154,12 +155,14 @@ void *find_at_linked_list(l_list *list,
   return NULL;
 }
 
-void *find_all_at_linked_list(l_list *list,
+arr_t *find_all_at_linked_list(l_list *list,
                               void *(*selector)(size_t *i, node_t *node,
                                                 void *context),
                               void *context) {
   if (!list || !selector)
     return NULL;
+
+  arr_t *arr = arr_create(2);
 
   node_t *current = list->head;
   size_t i = 0;
@@ -168,11 +171,11 @@ void *find_all_at_linked_list(l_list *list,
   while (current) {
     void *result = selector(&i, current, context);
     if (result)
-      last_result = result;
+      arr_push(arr , result);
 
     current = current->next;
     i++;
   }
 
-  return last_result;
+  return arr;
 }
