@@ -1,11 +1,10 @@
 #include "linked_list.h"
-#include "logger.h"
 #include "arr.h"
 
 l_list *new_empty_linked_list() {
   l_list *list = (l_list *)malloc(sizeof(l_list));
   if (!list)
-    elog("Error allocation memory for linked list struct");
+    lfatal("Error allocation memory for linked list struct");
   list->head = NULL;
   list->free_custom_node = NULL;
   list->count = 0;
@@ -53,7 +52,7 @@ void linked_list_remove_at(l_list *list, size_t index) {
   if (!list)
     return;
   if (!list->head)
-    elog("Can't remove item at index %zu, list is empty", index);
+    lfatal("Can't remove item at index %zu, list is empty", index);
 
   if (index == 0) {
     node_t *old = list->head;
@@ -72,7 +71,7 @@ void linked_list_remove_at(l_list *list, size_t index) {
   }
 
   if (!current->next)
-    elog("Can't remove item at index %zu, index out of range", index);
+    lfatal("Can't remove item at index %zu, index out of range", index);
 
   node_t *node_to_remove = current->next;
   current->next = node_to_remove->next;
@@ -94,9 +93,9 @@ void linked_list_remove_last(l_list *list) {
 
 void linked_list_add_at(l_list *list, node_t *node, size_t index) {
   if (!list)
-    elog("Can't add new node to linked list, list ptr is null");
+    lfatal("Can't add new node to linked list, list ptr is null");
   if (!node)
-    elog("Can't add new node to linked list, node is null");
+    lfatal("Can't add new node to linked list, node is null");
 
   if (index == 0 || !list->head) {
     node->next = list->head;
@@ -106,8 +105,8 @@ void linked_list_add_at(l_list *list, node_t *node, size_t index) {
   }
 
   if (index > list->count)
-    elog("Can't add new node to linked list at index %zu, index out of range",
-         index);
+    lfatal("Can't add new node to linked list at index %zu, index out of range",
+           index);
 
   node_t *current = list->head;
   size_t i = 0;
@@ -118,7 +117,7 @@ void linked_list_add_at(l_list *list, node_t *node, size_t index) {
   }
 
   if (!current)
-    elog("Can't add item at index %zu, index out of range", index);
+    lfatal("Can't add item at index %zu, index out of range", index);
 
   node->next = current->next;
   current->next = node;
@@ -156,9 +155,9 @@ void *find_at_linked_list(l_list *list,
 }
 
 arr_t *find_all_at_linked_list(l_list *list,
-                              void *(*selector)(size_t *i, node_t *node,
-                                                void *context),
-                              void *context) {
+                               void *(*selector)(size_t *i, node_t *node,
+                                                 void *context),
+                               void *context) {
   if (!list || !selector)
     return NULL;
 
@@ -171,7 +170,7 @@ arr_t *find_all_at_linked_list(l_list *list,
   while (current) {
     void *result = selector(&i, current, context);
     if (result)
-      arr_push(arr , result);
+      arr_push(arr, result);
 
     current = current->next;
     i++;

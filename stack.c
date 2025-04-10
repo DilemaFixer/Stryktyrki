@@ -1,21 +1,20 @@
 #include "stack.h"
-#include "logger.h"
 #include <stdbool.h>
 #include <stdlib.h>
 #include <string.h>
 
 arr_stack *new_arr_stack(size_t capacity) {
   if (capacity == 0)
-    elog("Can't create stack with zero capacity");
+    lfatal("Can't create stack with zero capacity");
 
   arr_stack *stack = (arr_stack *)malloc(sizeof(arr_stack));
   if (!stack)
-    elog("Error allocation memory for stack struct");
+    lfatal("Error allocation memory for stack struct");
 
   stack->items = malloc(sizeof(void *) * capacity);
   if (!stack->items) {
     free(stack);
-    elog("Error allocation mempry for stack_t -> items ");
+    lfatal("Error allocation mempry for stack_t -> items ");
   }
 
   stack->capacity = capacity;
@@ -35,13 +34,13 @@ void free_arr_stack(arr_stack *stack) {
 
 void arr_stack_resize(arr_stack *stack) {
   if (!stack)
-    elog("Can't resize stack, ptr on it is NULL");
+    lfatal("Can't resize stack, ptr on it is NULL");
   if (!stack->items)
-    elog("Can't resize stack, ptr on items is NULL");
+    lfatal("Can't resize stack, ptr on items is NULL");
   size_t new_capacity = stack->capacity * 2;
   void **buffer = malloc(new_capacity * sizeof(void *));
   if (!buffer)
-    elog("Failed to allocate memory for arr_stack resize");
+    lfatal("Failed to allocate memory for arr_stack resize");
   if (stack->count != 0)
     memcpy(buffer, stack->items, stack->count * sizeof(void *));
   free(stack->items);
@@ -51,19 +50,19 @@ void arr_stack_resize(arr_stack *stack) {
 
 void arr_stack_push(arr_stack *stack, void *item) {
   if (!stack)
-    elog("Can't push item to stack , ptr to stack is NULL");
+    lfatal("Can't push item to stack , ptr to stack is NULL");
   if (!item)
-    elog("Can't push item to stack , item ptr is NULL");
+    lfatal("Can't push item to stack , item ptr is NULL");
 
   if (stack->count + 1 > stack->capacity)
-    stack_resize(stack);
+    arr_stack_resize(stack);
 
   stack->items[stack->count] = item;
   stack->count++;
 }
 void *arr_stack_pop(arr_stack *stack) {
   if (!stack)
-    elog("Can't pop item from stack, stack ptr is NULL");
+    lfatal("Can't pop item from stack, stack ptr is NULL");
   if (stack->count == 0)
     return 0;
   stack->count--;
@@ -72,13 +71,14 @@ void *arr_stack_pop(arr_stack *stack) {
 
 void *arr_stack_peek(arr_stack *stack) {
   if (!stack)
-    elog("Can't peek item from stack, ptr on it is NULL");
+    lfatal("Can't peek item from stack, ptr on it is NULL");
   if (stack->count == 0)
     return NULL;
   return stack->items[stack->count - 1];
 }
 
 bool is_arr_stack_empty(arr_stack *stack) {
-  if (!stack) return true;
+  if (!stack)
+    return true;
   return (stack->count == 0 || stack->items == NULL);
 }
