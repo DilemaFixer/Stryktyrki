@@ -9,147 +9,49 @@ A lightweight and efficient C library for structured data processing and manipul
 
 ## 📥 Installation
 
-### Clone the entire repository
+## Clone Complete Repository
 
-#### Unix-based systems (Linux, macOS)
 ```bash
-mkdir -p ~/stryktyrki
-cd ~/stryktyrki
-git clone https://github.com/DilemaFixer/Stryktyrki.git .
+git clone https://github.com/DilemaFixer/Stryktyrki.git
+cd Stryktyrki
 ```
 
-#### Windows
-```cmd
-mkdir %USERPROFILE%\stryktyrki
-cd %USERPROFILE%\stryktyrki
-git clone https://github.com/DilemaFixer/Stryktyrki.git .
-```
+## Download Individual Components
 
-### Download individual components
+### Linked List
 
-#### Unix-based systems (Linux, macOS)
 ```bash
-# Create directory for the components
-mkdir -p ~/stryktyrki
-cd ~/stryktyrki
+curl -O https://raw.githubusercontent.com/DilemaFixer/Arr/main/arr.h
+curl -O https://raw.githubusercontent.com/DilemaFixer/Arr/main/arr.c
 
-# Core components
-curl -o logger.h https://raw.githubusercontent.com/DilemaFixer/Stryktyrki/main/logger.h
-curl -o logger.c https://raw.githubusercontent.com/DilemaFixer/Stryktyrki/main/logger.c
-
-# Array dependency
-curl -o arr.h https://raw.githubusercontent.com/DilemaFixer/Arr/main/arr.h
-curl -o arr.c https://raw.githubusercontent.com/DilemaFixer/Arr/main/arr.c
-
-# Individual data structures
-curl -o linked_list.h https://raw.githubusercontent.com/DilemaFixer/Stryktyrki/main/linked_list.h
-curl -o linked_list.c https://raw.githubusercontent.com/DilemaFixer/Stryktyrki/main/linked_list.c
-curl -o mem_stack.h https://raw.githubusercontent.com/DilemaFixer/Stryktyrki/main/mem_stack.h
-curl -o mem_stack.c https://raw.githubusercontent.com/DilemaFixer/Stryktyrki/main/mem_stack.c
-curl -o queue.h https://raw.githubusercontent.com/DilemaFixer/Stryktyrki/main/queue.h
-curl -o queue.c https://raw.githubusercontent.com/DilemaFixer/Stryktyrki/main/queue.c
-curl -o stack.h https://raw.githubusercontent.com/DilemaFixer/Stryktyrki/main/stack.h
-curl -o stack.c https://raw.githubusercontent.com/DilemaFixer/Stryktyrki/main/stack.c
+curl -O https://raw.githubusercontent.com/DilemaFixer/Stryktyrki/main/linked_list.h
+curl -O https://raw.githubusercontent.com/DilemaFixer/Stryktyrki/main/linked_list.c
 ```
 
-#### Windows
-```cmd
-mkdir %USERPROFILE%\stryktyrki
-cd %USERPROFILE%\stryktyrki
+### Memory Stack
 
-REM Core components
-curl -o logger.h https://raw.githubusercontent.com/DilemaFixer/CSL/main/logger.h
-curl -o logger.c https://raw.githubusercontent.com/DilemaFixer/CSL/main/logger.c
+```bash
+curl -O https://raw.githubusercontent.com/DilemaFixer/Stryktyrki/main/mem_stack.h
+curl -O https://raw.githubusercontent.com/DilemaFixer/Stryktyrki/main/mem_stack.c
+```
 
-REM Array dependency
-curl -o arr.h https://raw.githubusercontent.com/DilemaFixer/Arr/main/arr.h
-curl -o arr.c https://raw.githubusercontent.com/DilemaFixer/Arr/main/arr.c
+### Queue
 
-REM Individual data structures
-curl -o linked_list.h https://raw.githubusercontent.com/DilemaFixer/Stryktyrki/main/linked_list.h
-curl -o linked_list.c https://raw.githubusercontent.com/DilemaFixer/Stryktyrki/main/linked_list.c
-curl -o mem_stack.h https://raw.githubusercontent.com/DilemaFixer/Stryktyrki/main/mem_stack.h
-curl -o mem_stack.c https://raw.githubusercontent.com/DilemaFixer/Stryktyrki/main/mem_stack.c
-curl -o queue.h https://raw.githubusercontent.com/DilemaFixer/Stryktyrki/main/queue.h
-curl -o queue.c https://raw.githubusercontent.com/DilemaFixer/Stryktyrki/main/queue.c
-curl -o stack.h https://raw.githubusercontent.com/DilemaFixer/Stryktyrki/main/stack.h
-curl -o stack.c https://raw.githubusercontent.com/DilemaFixer/Stryktyrki/main/stack.c
+```bash
+curl -O https://raw.githubusercontent.com/DilemaFixer/Stryktyrki/main/queue.h
+curl -O https://raw.githubusercontent.com/DilemaFixer/Stryktyrki/main/queue.c
+```
+
+### Stack
+
+```bash
+curl -O https://raw.githubusercontent.com/DilemaFixer/Stryktyrki/main/stack.h
+curl -O https://raw.githubusercontent.com/DilemaFixer/Stryktyrki/main/stack.c
 ```
 
 ## 🔧 API and Usage Examples
 
 ### 📊 Data Structures
-
-#### Array (arr_t)
-A dynamic array implementation for efficient sequential data storage with automatic resizing.
-
-##### Core Structures
-```c
-typedef struct {
-    void** data;    // Array of void pointers for storing elements
-    size_t size;    // Current number of elements in the array
-    size_t capacity; // Total capacity of the array
-} arr_t;
-```
-
-##### Functions
-```c
-arr_t* arr_create(size_t initial_capacity);
-// Creates a new dynamic array with specified initial capacity
-
-void arr_destroy(arr_t* arr);
-// Frees all resources associated with the array
-
-bool arr_push(arr_t* arr, void* element);
-// Adds an element to the end of the array
-
-void* arr_get(arr_t* arr, size_t index);
-// Retrieves the element at the specified index
-
-bool arr_set(arr_t* arr, size_t index, void* element);
-// Sets the element at the specified index
-
-bool arr_remove(arr_t* arr, size_t index);
-// Removes the element at the specified index
-
-size_t arr_size(arr_t* arr);
-// Returns the number of elements in the array
-
-bool arr_resize(arr_t* arr, size_t new_capacity);
-// Resizes the array to the specified capacity
-```
-
-##### Usage Example
-```c
-#include "arr.h"
-#include <stdio.h>
-
-void example() {
-    // Create a dynamic array with initial capacity of 8
-    arr_t* myArray = arr_create(8);
-    
-    // Create and add some integer elements (must be heap-allocated for persistence)
-    int* val1 = malloc(sizeof(int));
-    int* val2 = malloc(sizeof(int));
-    *val1 = 42;
-    *val2 = 100;
-    
-    arr_push(myArray, val1);
-    arr_push(myArray, val2);
-    
-    // Access elements
-    int* retrieved = arr_get(myArray, 0);
-    printf("First element: %d\n", *retrieved);
-    
-    // Get array size
-    printf("Array size: %zu\n", arr_size(myArray));
-    
-    // Clean up (note: this doesn't free the contained elements)
-    arr_destroy(myArray);
-    free(val1);
-    free(val2);
-}
-```
 
 #### Linked List (l_list)
 A singly linked list implementation for efficient node-based sequential data storage.
